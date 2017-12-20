@@ -1,0 +1,95 @@
+<style type='text/css'>
+td
+{
+	border: 1px solid #eee;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
+tr:first-child,td:first-child
+{
+	background-color:skyblue;
+	color: #fff;
+	text-transform:capitalize;
+}
+#strtlcs
+{
+	margin: 10px;
+	padding:4px:
+}
+
+</style>
+ 
+<body>
+<button onclick="startBC(5,2)">BC</button>
+<div id='tableBox'></div>
+</body>
+<script>
+
+function startBC(row,col){
+	createTable(row);
+	getBC(row,col)
+}
+
+var _col = 1;
+var _row = 1;
+
+var _cols = 1;
+var _rows = 1;
+function createTable(rows)
+{	
+	var col = 1;
+	var i = 0;
+	var table = document.createElement('table');
+	
+	for (var j = 0; j < rows; j++)
+	{
+		col = col * 2;
+		
+	}
+	//globally column value set
+	_cols = col;
+	//globally row value set
+	_rows = rows;
+	
+	for (i = 0; i <= rows; i++)
+	{		
+		var tr = document.createElement('tr');
+		for (var j = 0; j <= col; j++)
+		{
+			var td = document.createElement('td');
+			td.setAttribute('id',i+"_"+j);
+			tr.appendChild(td);
+		}
+		
+		table.appendChild(tr);
+	}
+	
+	document.getElementById('tableBox').appendChild(table);
+}
+
+function fillTree(val,row){
+	var c = 1;
+	for (i = _rows;i >= row; i--){
+		c = c * 2;
+	}
+	var midValue = (_cols)/c;
+	//console.log(" row "+row+" rows "+_rows+"_c "+c+" cols "+_cols+" pars "+parseInt(midValue));
+    console.log("here "+row+"_"+midValue);
+	document.getElementById(row+"_"+midValue).innerHTML = "asa";
+}
+function getBC(a, b)
+{
+var val = "("+a+","+b+")";
+//fillTree(val,0);
+document.getElementById(a+"_"+b).innerHTML= "("+a+","+b+")";
+	console.log(a,b);
+	if (b == 0 || b == a)
+	{
+	    //fillTree(val,0);
+		console.log("a");
+		return 1;
+	}
+	return getBC(a-1,b-1) + getBC(a-1,b);
+}
+</script>

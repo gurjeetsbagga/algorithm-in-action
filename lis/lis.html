@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Longest Increasing Subsequence</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            table{
+                margin-left:33%;
+            }
+            td{
+                border:1px solid #ccc;
+            }
+            td{
+                width:40px;
+                text-align:center;
+                font-size:15px;
+            }
+        </style>
+    </head>
+    <body>
+        <p>Comapring Green box with orange</p>
+        <h1>Longest Increasing Sequence</h1>
+        <code class='c++'>
+            int Arr[10] = {10,22,9,33,21,50,41,60};
+            int main(){
+
+            }
+        </code>
+        Arr[10] = {10,22,9,33,21,50,41,60}
+        <hr/>
+        <label>speed:</label>
+        <select id='speed' onchange = 'speedchange();'>
+            <option value='0'>default</option>
+            <option value='1'>1s</option>
+            <option value='2'>2s</option>
+            <option value='3'>3s</option>
+            <option value='4'>4s</option>
+            <option value='5'>5s</option>
+            <option value='6'>6s</option>
+            <option value='7'>7s</option>
+            <option value='8'>8s</option>
+            <option value='9'>9s</option>
+            <option value='10'>10s</option>
+            <option value='11'>Instatnt</option>
+        </select>
+        <div>----------------------------</div>
+        <div id='button'><button onclick="start();">Start</button></div>
+        <div>----------------------------</div>
+        Speed Meter: <span id="speedmeter">Default(2s)</span>
+        <table id='table'>
+            <!-- <tr><td>Array[i]</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr> -->
+            <tr></tr>
+            <tr><td>Array</td><td>10</td><td>22</td><td>9</td><td>33</td><td>21</td><td>50</td><td>41</td><td>60</td><td>80</td></tr>
+            <tr><td>Array[i]</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+            <tr>
+                <td colspan='10'>.... Fromula..........</td>
+            </tr>
+            <tr><td>LIS</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LIS[i]</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+        </table>
+        <h2>Result:</h2>
+        <table id='result'></table>
+
+        <hr/>
+    </body>
+</html>
+
+<script>
+    var arr = [10, 22, 9, 33, 21, 50, 41, 60, 80];
+    var i;
+    var lis = [];
+    var el = document.getElementById("table").getElementsByTagName("tr")[4];
+    var isPaused = false;
+
+    for (i = 0; i < 9; i++) {
+        lis[i] = 1;
+        el.getElementsByTagName("td")[i + 1].innerHTML = 1;
+    }
+	
+   function stop(){
+       location.reload();
+   }
+
+    function Pause() {
+	    document.getElementById("play").disabled = false;
+		document.getElementById("pause").disabled = true;
+        isPaused = true;
+    }
+    function ReStart() {
+        clearInterval(LISAlgorithm);
+        start();
+    }
+    function play(e) {
+	    document.getElementById("play").disabled = true;
+		document.getElementById("pause").disabled = false;
+        isPaused = false;
+    }
+    function max(a, b) {
+        var c = (a >= b) ? a : b;
+        console.log(c);
+        return c;
+    }
+    var speed = 2000;
+    function speedchange() {	
+		var index = document.getElementById("speed").selectedIndex;
+        if (index > 0) {
+            speed = index * 1000;
+            console.log(speed);
+        }
+		document.getElementById("speedmeter").innerHTML = speed;
+		document.getElementById("play").disabled = false;
+		document.getElementById("pause").disabled = false;  
+    }
+    var LISAlgorithm;
+    function start() {
+		document.getElementById("speed").disabled = true;        
+        document.getElementById("button").innerHTML = "<button id='play'onclick='play();'>play</button> <button id='pause' onclick='Pause();'>Pause</button> <button onclick='ReStart();'>Re-Start</button> <button onclick='stop();'>stop</button>";
+        var k = 0;
+
+        var i = 1;
+        var j = 0;
+        LISAlgorithm = setInterval(function () {
+            if (!isPaused) {
+                console.log(i + "hell" + j);
+                for (var r = 0; r < document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td").length; r++) {
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[r].style.backgroundColor = "white";
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[r].style.color = "black";
+
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[r].style.backgroundColor = "white";
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[r].style.color = "black";
+                }
+				var x =lis[i];
+                if (arr[i] > arr[j]) {
+					x =lis[i];
+                    lis[i] = max(lis[j] + 1, lis[i]);
+                    var el = "IS Array<span style='background-color:green;color:white;padding:0 1px;'>[" + i + "]</span> > Array<span style='background-color:orange;color:white;padding:0 1px;'>[" + j + "]</span><br>";
+                    el = el + "yes<br>";
+                   el = el + "Then <span style='color:grey'>LIS[i] = max(Lis[j],Lis[i])</span><br> LIS["+i+"]=max(<span style='background-color:white;color:black;padding:0 1px;'>" + lis[j] + "</span>, <span style='background-color:white;color:black;padding:0 1px;'>" + x + ")</span><br>LIS["+i+"] is "+lis[i];;
+                    document.getElementById("table").getElementsByTagName("tr")[3].getElementsByTagName("td")[0].innerHTML = el;
+                    console.log(el);
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[i + 1].innerHTML = lis[i];
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[i + 1].style.backgroundColor = "green";
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[i + 1].style.color = "white";
+
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[j + 1].style.backgroundColor = "orange";
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[j + 1].style.color = "white";
+
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[i + 1].style.backgroundColor = "blue";
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[i + 1].style.color = "white";
+                }
+                else if (i == 10) {
+                    
+                    document.getElementById("button").innerHTML = "<button onclick='start();'>Re-Start</button> <button onclick='stop();'>stop</button>";
+                    result();
+					clearInterval(LISAlgorithm);
+                } else {
+                    var el = "<p>IS Array<span style='background-color:green;color:white;padding:0 1px;'>[" + i + "]</span> > Array<span style='background-color:orange;color:white;padding:0 1px;'>[" + j + "]</span><br>";
+                    el = el + "NO<br>";
+                    el = el + "Then <span style='color:grey'>LIS[i] = max(Lis[j],Lis[i])</span><br> LIS["+i+"]=max(<span style='background-color:white;color:black;padding:0 1px;'>" + lis[j] + "</span>, <span style='background-color:white;color:black;padding:0 1px;'>" + x + ") </span><br>LIS["+i+"] is "+lis[i];
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[i + 1].style.backgroundColor = "green";
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[i + 1].style.color = "white";
+
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[j + 1].style.backgroundColor = "orange";
+                    document.getElementById("table").getElementsByTagName("tr")[1].getElementsByTagName("td")[j + 1].style.color = "white";
+
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[i + 1].style.backgroundColor = "blue";
+                    document.getElementById("table").getElementsByTagName("tr")[4].getElementsByTagName("td")[i + 1].style.color = "white";
+                    document.getElementById("table").getElementsByTagName("tr")[3].getElementsByTagName("td")[0].innerHTML = el;
+                }
+
+                if (j < i) {
+                    j++;
+                }
+                if (j >= i) {
+                    console.log("jjj");
+                    i++;
+                    j = 0;
+                }
+            }
+			
+        }, speed);
+
+
+    }
+
+    function result() {
+        var result = "";
+        var minCount = 0;
+        var i = 0;
+        result = "<td>" + arr[i] + "</td>";
+        lisresult = "<td>" + lis[i] + "</td>";
+        minCount = lis[i];
+        for (i = 1; i < 10; i++) {
+
+            if (minCount < lis[i]) {
+                minCount = lis[i];
+                result = result + "<td>" + arr[i] + "</td>";
+                lisresult = lisresult + "<td>" + lis[i] + "</td>";
+            }
+        }
+        console.log(result);
+        document.getElementById("result").innerHTML = "<tr><td>Array</td>" + result + "</tr><tr><td>Lis</td>" + lisresult + "</tr>";
+		document.getElementById("speed").disabled = false;
+    }
+
+</script>
+
